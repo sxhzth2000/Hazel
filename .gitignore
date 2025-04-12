@@ -1,7 +1,13 @@
 # Directories
 .vs/
+.idea/
 bin/
 bin-int/
+x64/
+lib/
+cmake-build-debug-visual-studio/
+
+
 
 # files
 *.user
