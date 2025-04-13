@@ -6,14 +6,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 查找所有 Hazel 代码文件
-file(GLOB_RECURSE HAZEL_SOURCES "src/*.cpp")
+file(GLOB_RECURSE HAZEL_SOURCES
+        src/Hazel/*.cpp
+)
 file(GLOB_RECURSE HAZEL_HANDER "src/*.h")
 
 
 # 构建 Hazel 作为动态库
 add_library(Hazel SHARED 
         ${HAZEL_SOURCES}
-        
+
 )
 
 # 头文件路径，确保 Sandbox 可以正确引用 Hazel 头文件

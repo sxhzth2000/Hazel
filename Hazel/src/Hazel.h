@@ -2,10 +2,6 @@
 // for use by hazel applications
 
 
-#include "Hazel/Application.h"
-#include "Hazel/Log.h"
+#include "Hazel/Core/Application.h"
+#include "Hazel/Core/Log.h"
 
-
-//---------------Entry point--------------------
-#include "Hazel/EntryPoint.h"
-//---------------Entry point--------------------

@@ -1,3 +1,6 @@
+
+
+#include "Hazel/Core/EntryPoint.h"
 #include <Hazel.h>
 
 class Sandbox :public Hazel::Application
@@ -11,10 +14,10 @@ public:
 	{
 
 	}
-
 private:
 
 };
+
 
 Hazel::Application* Hazel::CreateApplication()
 {

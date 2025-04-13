@@ -1,29 +1,27 @@
 #pragma once
 
+
 #ifdef HZ_PLATFORM_WINDOWS
 
-#include "Application.h"
 #include "Log.h"
-#include <stdio.h>
-
+#include "Application.h"
 
 extern Hazel::Application* Hazel::CreateApplication();
 
-
 int main(int argc,char** argv)
 {
+	spdlog::info("Hellow spdlog!");
+
 	Hazel::Log::Init();
 
 
-	HZ_CORE_TRACE("Initialized Log!");
-	HZ_CORE_INFO("Hello!");
+	HZ_TRACE	("Hellow HazelLog!");
 
-	char a[] = { "qweqweqwe" };
-	HZ_INFO("{0} \n{1}\n {{}}\n {{\n }} ", a, a);
-	//printf("hazel engine");
+
 	auto app =Hazel::CreateApplication();
 	app->Run();
 	delete app;
+	return 0;
 }
 #endif // HZ_PLATFORM_WINDOWS
  

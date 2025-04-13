@@ -6,19 +6,27 @@ set(CMAKE_CXX_STANDARD 17)
 
 # 查找所有 Sandbox 代码文件
 
-file(GLOB_RECURSE HAZEL_SOURCES "../Hazel/src/*.cpp")
-file(GLOB_RECURSE HAZEL_HANDER "../Hazel/src/*.h")
-
-file(GLOB_RECURSE SANDBOX_SOURCES "src/*.cpp")
-file(GLOB_RECURSE SANDBOX_HANDER "src/*.h")
-
+file(GLOB_RECURSE HAZEL_SOURCES
+   #     ../Hazel/src/Hazel/Core/Application.cpp
+    #    ../Hazel/src/Hazel/Core/Log.cpp
+)
 
 
-# 构建 Sandbox 可执行文件
-add_executable(Sandbox ${SANDBOX_SOURCES} ${HAZEL_SOURCES})
+file(GLOB_RECURSE SANDBOX_SOURCES
+        "src/*.cpp"
+)
 
 
-target_link_libraries(Sandbox PRIVATE Hazel)
+
+
+# 仅添加 Sandbox 的源文件
+add_executable(Sandbox
+        src/Sandbox.cpp  # 显式列出文件更安全
+
+)
+
+
+    target_link_libraries(Sandbox PRIVATE Hazel)
 
 # 包含 Hazel 的头文件目录
 target_include_directories(Sandbox PUBLIC
