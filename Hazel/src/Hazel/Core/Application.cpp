@@ -8,13 +8,14 @@
 
 
 #include <iostream>
+#include <GL/gl.h>
 
 
 namespace Hazel {
 
 	Application::Application()
 	{
-
+		m_Window =  std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -24,16 +25,16 @@ namespace Hazel {
 
 	void Application::Run()
 	{
-		WindowResizeEvent e(123,123);
-
-		if (e.IsInCategory(EventCategoryApplication))
+		while(m_runing)
 		{
 
-			HZ_TRACE(e.ToString());
-			HZ_INFO(e.ToString());
+
+			glClearColor(1,0,1,1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_Window->OnUpdate();
 		}
 
-		while (true);
+
 	}
 
 }
