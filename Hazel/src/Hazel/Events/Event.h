@@ -4,14 +4,16 @@
 
 #pragma once
 
+#include<hzpch.h>
+
+
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
 
 #include <Hazel/Core/Core.h>
-#include <string>
-#include <functional>
+
 
 
 

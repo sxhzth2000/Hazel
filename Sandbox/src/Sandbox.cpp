@@ -1,5 +1,4 @@
 
-
 #include "Hazel/Core/EntryPoint.h"
 #include <Hazel.h>
 
