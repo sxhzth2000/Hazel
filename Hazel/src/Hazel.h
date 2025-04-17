@@ -3,5 +3,6 @@
 
 
 #include "Hazel/Core/Application.h"
+#include "Hazel/Layer.h"
 #include "Hazel/Core/Log.h"
 

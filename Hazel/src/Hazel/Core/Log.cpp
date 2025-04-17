@@ -29,7 +29,7 @@ namespace  Hazel {
 	std::shared_ptr<spdlog::logger>& Log::GetClientLogger()
 	{
 		if (!s_CoreLogger) Init();
-		return s_CoreLogger;
+		return s_ClientLogger;
 	}
 
 

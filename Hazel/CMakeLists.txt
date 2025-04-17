@@ -24,6 +24,10 @@ add_library(Hazel SHARED
         Platform/Windows/WindowsWindow.cpp
         Platform/Windows/WindowsWindow.h
         src/Window.h
+        src/Hazel/Layer.cpp
+        src/Hazel/Layer.h
+        src/Hazel/LayerStack.cpp
+        src/Hazel/LayerStack.h
 
 )
 
