@@ -46,6 +46,8 @@ namespace Hazel {
         virtual void SetEventCallback(const EventCallbackFn& callback)=0;
         virtual void SetVSync(bool enabled)=0;
         virtual void IsVSync()const=0;
+        // 加上这个函数声明 👇
+        virtual void* GetNativeWindow() const = 0;
 
         static Window* Create(const WindowProps& props = WindowProps());
     };

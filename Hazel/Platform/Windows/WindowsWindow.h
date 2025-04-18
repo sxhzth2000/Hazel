@@ -9,10 +9,13 @@
 
 
 
-#include "Window.h"
 
 
+
+#include "glad/glad.h"
 #include <GLFW/glfw3.h>
+
+#include "Window.h"
 
 namespace Hazel{
 
@@ -30,6 +33,7 @@ public:
     inline void SetEventCallback(const EventCallbackFn& callback) override {m_Data.EventCallback=callback;} ;
     void SetVSync(bool enabled) override;
     void IsVSync()const override;
+    virtual void* GetNativeWindow() const override;
 
 private:
     virtual void Init(const WindowProps& props);

@@ -22,11 +22,16 @@ namespace Hazel {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
+		inline static Application& Get();
+		inline Window& GetWindow();
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		std::unique_ptr<Window> m_Window;
 		bool m_runing =true;
 		LayerStack m_LayerStack;
+	private:
+		static Application* s_Instance;
 	};
 
 

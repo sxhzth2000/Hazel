@@ -3,8 +3,9 @@
 //
 
 #include "hzpch.h"
-#include "glad/glad.h"
 #include "WindowsWindow.h"
+
+
 
 #include <Hazel/Core/Log.h>
 #include <Hazel/Events/ApplicationEvent.h>
@@ -53,6 +54,11 @@ namespace Hazel{
 
     void WindowsWindow::IsVSync() const
     {
+    }
+
+    void* WindowsWindow::GetNativeWindow() const
+    {
+        return m_Window;
     }
 
     void WindowsWindow::Init(const WindowProps& props)

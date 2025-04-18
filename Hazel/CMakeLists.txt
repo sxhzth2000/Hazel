@@ -18,22 +18,28 @@ file(GLOB_RECURSE HAZEL_SOURCES
         src/*.cpp
 )
 file(GLOB_RECURSE HAZEL_HANDER "src/*.h")
-
+file(GLOB IMGUI_SOURCES
+        "vendor/imgui/*.cpp"
+        vendor/imgui/backends/imgui_impl_opengl3.cpp
+        vendor/imgui/backends/imgui_impl_glfw.cpp
+)
 
 
 # 构建 Hazel 作为动态库
 add_library(Hazel SHARED
         ${HAZEL_SOURCES}
+        ${IMGUI_SOURCES}
         Platform/Windows/WindowsWindow.cpp
-        Platform/Windows/WindowsWindow.h
-        src/Window.h
+
         src/Hazel/Layer.cpp
-        src/Hazel/Layer.h
+
         src/Hazel/LayerStack.cpp
-        src/Hazel/LayerStack.h
+
         vendor/glad/src/glad.c
-        vendor/glad/include/glad/glad.h
-        vendor/glad/include/KHR/khrplatform.h
+
+
+        src/Hazel/Imgui/ImGuiLayer.cpp
+
 
 )
 
@@ -53,6 +59,8 @@ target_include_directories(Hazel PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
 )
 
 set(CMAKE_PCH_EXTENSION .cpp)  # 👈 强制使用 .cpp 编译 cmake_pch
