@@ -7,10 +7,12 @@
 
 #include "hzpch.h"
 
-#include <GLFW/glfw3.h>
+
 
 #include "Window.h"
 
+
+#include <GLFW/glfw3.h>
 
 namespace Hazel{
 

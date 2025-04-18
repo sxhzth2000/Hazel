@@ -3,13 +3,13 @@
 //
 
 #include "hzpch.h"
+#include "glad/glad.h"
 #include "WindowsWindow.h"
 
 #include <Hazel/Core/Log.h>
 #include <Hazel/Events/ApplicationEvent.h>
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
-
 
 namespace Hazel{
 
@@ -78,6 +78,10 @@ namespace Hazel{
 
         m_Window=glfwCreateWindow((int)props.Width,(int) props.Height,m_Data.Tiele.c_str(),nullptr,nullptr);
         glfwMakeContextCurrent(m_Window);
+
+        int status=gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        if (!status) {HZ_CORE_ERROR("fails to initialize Glad!");};
+
         glfwSetWindowUserPointer(m_Window,&m_Data);
         SetVSync(true);
 

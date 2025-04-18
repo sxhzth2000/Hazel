@@ -1,10 +1,13 @@
+
+
 cmake_minimum_required(VERSION 3.20)
-project(Hazel)
+
+# 设置项目名和语言
+project(Hazel LANGUAGES C CXX)
 
 # 设置 C++ 标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 
 
 
@@ -28,6 +31,9 @@ add_library(Hazel SHARED
         src/Hazel/Layer.h
         src/Hazel/LayerStack.cpp
         src/Hazel/LayerStack.h
+        vendor/glad/src/glad.c
+        vendor/glad/include/glad/glad.h
+        vendor/glad/include/KHR/khrplatform.h
 
 )
 
@@ -46,9 +52,18 @@ target_link_libraries(Hazel PRIVATE glfw opengl32)
 target_include_directories(Hazel PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad/include
 )
 
-target_precompile_headers(Hazel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/hzpch.h)
+set(CMAKE_PCH_EXTENSION .cpp)  # 👈 强制使用 .cpp 编译 cmake_pch
+
+# 设置 PCH 仅用于 C++ 编译单元
+target_precompile_headers(Hazel PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/src/hzpch.h>
+)
+
+set_source_files_properties(vendor/glad/src/glad.c PROPERTIES LANGUAGE C)
+
 
 # Windows 专用设置
 if (WIN32)
@@ -56,9 +71,15 @@ if (WIN32)
 endif()
 
 # MSVC 编译器设置
+#if (MSVC)
+#    set(CMAKE_CXX_FLAGS "/utf-8")
+#    set(CMAKE_C_FLAGS "/utf-8")
+#endif()
 if (MSVC)
-    set(CMAKE_CXX_FLAGS "/utf-8")
-    set(CMAKE_C_FLAGS "/utf-8")
+    # 用于 C++
+    target_compile_options(Hazel PRIVATE $<$<COMPILE_LANGUAGE:CXX>:/utf-8>)
+    # 用于 C
+    target_compile_options(Hazel PRIVATE $<$<COMPILE_LANGUAGE:C>:/utf-8>)
 endif()
 
 
