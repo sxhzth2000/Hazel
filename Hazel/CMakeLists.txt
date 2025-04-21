@@ -39,6 +39,9 @@ add_library(Hazel SHARED
 
 
         src/Hazel/Imgui/ImGuiLayer.cpp
+        src/Hazel/input.h
+        Platform/Windows/WindowsInput.cpp
+        Platform/Windows/WindowsInput.h
 
 
 )
