@@ -8,7 +8,7 @@
 
 
 
-#include "Hazel.h"
+
 #include "Event.h"
 
 
@@ -18,7 +18,7 @@ namespace Hazel
     class HAZEL_API MouseMovedEvent :public Event
     {
     public:
-        MouseMovedEvent(float x,float y)
+        MouseMovedEvent(const float x,const float y)
             :m_MouseX(x),m_MouseY(y){}
 
         inline float GetX() const {return m_MouseX;}
@@ -41,7 +41,7 @@ namespace Hazel
     class HAZEL_API MouseScrolledEvent : public Event
     {
     public:
-        MouseScrolledEvent(float xOffset,float yOffset)
+        MouseScrolledEvent(const float xOffset,const float yOffset)
             :m_XOffset(xOffset),m_YOffset(yOffset) {}
 
         inline float GetXOffset() const {return m_XOffset;}
@@ -105,11 +105,6 @@ namespace Hazel
         EVENT_CLASS_TYPE(MouseButtonReleased)
     };
 
-
-
-
-
-
-
-
 }
+
+

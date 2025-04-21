@@ -11,3 +11,5 @@
 
 //bitmask  二进制的1 左移x位
 #define BIT(x) (1 << x)
+
+#define HZ_BIND_EVENT_FN(fn) std::bind(&fn,this,std::placeholders::_1)

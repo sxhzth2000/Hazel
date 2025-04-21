@@ -5,16 +5,15 @@
 #pragma once
 
 #include<hzpch.h>
-
-
 #include "Event.h"
+
 
 namespace Hazel
 {
    class HAZEL_API KeyEvent : public Event
     {
    public:
-       inline int GetKyeCode()const {return m_KeyCode;}
+       inline int GetKeyCode()const {return m_KeyCode;}
 //用宏来实现分类判断
        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
    protected:
@@ -23,6 +22,10 @@ namespace Hazel
 
         int m_KeyCode;
     };
+
+
+
+
 
     class HAZEL_API KeyPressedEvent: public KeyEvent
     {
@@ -44,6 +47,8 @@ namespace Hazel
         int m_RepeatCount;
     };
 
+
+
     class HAZEL_API KeyReleasedEvent: public KeyEvent
     {
     public:
@@ -62,7 +67,23 @@ namespace Hazel
 
     };
 
+    class HAZEL_API KeyTypeEvent: public KeyEvent
+    {
+    public:
+        KeyTypeEvent(int keycode)
+        :KeyEvent(keycode){}
 
+
+        std::string ToString() const override
+        {
+            std::stringstream ss;
+            ss << "KeyTypeEvent: "<< m_KeyCode ;
+            return ss.str();
+        }
+        EVENT_CLASS_TYPE(KeyTyped)
+    private:
+
+    };
 
 
 
