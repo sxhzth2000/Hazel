@@ -1,6 +1,7 @@
 
 #include "Hazel/Core/EntryPoint.h"
 #include <Hazel.h>
+#include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 
 class ExampleLayer:public Hazel::Layer
 {
@@ -12,12 +13,22 @@ public:
 
 	void OnUpdate() override
 	{
-		HZ_INFO("ExampleLayer::Update");
+
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_TAB))
+			HZ_TRACE("TAB key is pressed (poll)");
 	}
 
 	void OnEvent(Hazel::Event& event) override
 	{
-		HZ_TRACE("{0}",event.ToString());
+		if(event.GetEventType()==Hazel::EventType::KeyPressed)
+		{
+			Hazel::KeyPressedEvent& e= (Hazel::KeyPressedEvent&)event;
+			if (e.GetKeyCode()==HZ_KEY_TAB)
+			HZ_TRACE(" TAB Key a is pressed (event)");
+			HZ_TRACE("{0}",(char)e.GetKeyCode());
+		}
+
 	}
 };
 
@@ -42,5 +53,6 @@ private:
 
 Hazel::Application* Hazel::CreateApplication()
 {
+
 	return new Sandbox();
 }

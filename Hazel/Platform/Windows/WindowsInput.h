@@ -8,7 +8,8 @@
 
 namespace Hazel {
 
-class WindowsInput :public Input{
+class HAZEL_API WindowsInput : public Input{
+
 
 
 protected:

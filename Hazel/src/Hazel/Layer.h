@@ -7,6 +7,7 @@
 
 #include "Hazel/Core/Core.h"
 #include "Hazel/Events/Event.h"
+
 namespace Hazel
 {
     class HAZEL_API Layer {

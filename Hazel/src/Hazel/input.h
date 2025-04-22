@@ -4,12 +4,13 @@
 
 #ifndef INPUT_H
 #define INPUT_H
+#include "hzpch.h"
 
 #include "Hazel/Core/Core.h"
 // 提供一个单例 static Input* s_Instance;
 namespace Hazel{
 
-    class HAZEL_API Input
+    class  HAZEL_API Input
     {
     public:
        inline static bool IsKeyPressed(int keycode ) ;
@@ -25,42 +26,12 @@ namespace Hazel{
         virtual float GetMouseYImp()=0;
         virtual std::pair<float,float> GetMousePositionImp()=0;
 
-
-
-
-    private:
-        static Input* s_Instance;
+    public:
+        static  Input* s_Instance;
     };
 
-    inline bool Input::IsKeyPressed(int keycode)
-    {
-        return s_Instance->IsKeyPressedImp(keycode);
-    }
 
-    inline bool Input::IsMouseButtonPressed(int button)
-    {
-        return s_Instance->IsMouseButtonPressedImp(button);
-    }
 
-    inline float Input::GetMouseX()
-    {
-        return s_Instance->GetMouseXImp();
-
-    }
-
-    inline float Input::GetMouseY()
-    {
-        return s_Instance->GetMouseYImp();
-    }
-
-    inline std::pair<float,float> Input::GetMousePosition()
-    {
-        return s_Instance->GetMousePositionImp();
-    }
 }
-
-
-
-
 
 #endif //INPUT_H

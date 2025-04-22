@@ -6,7 +6,7 @@ bin-int/
 x64/
 lib/
 cmake-build-debug-visual-studio/
-
+cmake-build-release-visual-studio/
 
 
 # files

@@ -6,15 +6,17 @@
 #include <spdlog/fmt/ostr.h>
 
 #include "Hazel/Core/Application.h"
+
+#include <Windows/WindowsInput.h>
+
 #include "Hazel/Events/ApplicationEvent.h"
 
 
-#include <iostream>
 
 
 #include "glad/glad.h"
 
-#include "Hazel/input.h"
+
 
 namespace Hazel {
 
@@ -26,6 +28,7 @@ namespace Hazel {
 
 	Application::Application()
 	{
+		Input::s_Instance = new WindowsInput();
 
 		s_Instance=this;
 		if (!s_Instance)
@@ -53,8 +56,7 @@ namespace Hazel {
 			for(Layer* layer:m_LayerStack)
 				layer->OnUpdate();
 
-			auto[x,y]=Input::GetMousePosition();
-			HZ_CORE_TRACE("MousePosition:[{0},{1}]",x,y);
+
 
 			m_Window->OnUpdate();
 		}

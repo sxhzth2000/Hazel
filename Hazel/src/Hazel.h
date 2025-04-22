@@ -6,4 +6,6 @@
 #include "Hazel/Layer.h"
 #include "Hazel/Core/Log.h"
 #include "Hazel/Imgui/ImGuiLayer.h"
-
+#include "Hazel/input.h"
+#include "../Platform/Windows/WindowsInput.h"
+#include "Hazel/KeyCodes.h"

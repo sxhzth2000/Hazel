@@ -30,22 +30,11 @@ add_library(Hazel SHARED
         ${HAZEL_SOURCES}
         ${IMGUI_SOURCES}
         Platform/Windows/WindowsWindow.cpp
-
-        src/Hazel/Layer.cpp
-
-        src/Hazel/LayerStack.cpp
-
         vendor/glad/src/glad.c
-
-
-        src/Hazel/Imgui/ImGuiLayer.cpp
-        src/Hazel/input.h
         Platform/Windows/WindowsInput.cpp
-        Platform/Windows/WindowsInput.h
-
-
 )
 
+message(STATUS "Hazel sources: ${HAZEL_SOURCES}")
 
 
 # 添加 GLFW 源码目录
@@ -64,6 +53,7 @@ target_include_directories(Hazel PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform
 )
 
 set(CMAKE_PCH_EXTENSION .cpp)  # 👈 强制使用 .cpp 编译 cmake_pch

@@ -10,7 +10,6 @@
 
 namespace Hazel {
 
-    Input*  Input::s_Instance= new WindowsInput();
 
     bool WindowsInput::IsKeyPressedImp(int keycode)
     {
@@ -38,14 +37,12 @@ namespace Hazel {
 
     float WindowsInput::GetMouseXImp( )
     {
-        auto[x,y]=GetMousePositionImp();
-        return x;
+        return GetMousePositionImp().first;
     }
 
     float WindowsInput::GetMouseYImp( )
     {
-        auto[x,y]=GetMousePositionImp();
-        return y;
+        return GetMousePositionImp().second;
     }
 
 
