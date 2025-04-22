@@ -54,6 +54,7 @@ target_include_directories(Hazel PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform
+    ${CMAKE_SOURCE_DIR}/Hazel/vendor/GLM
 )
 
 set(CMAKE_PCH_EXTENSION .cpp)  # 👈 强制使用 .cpp 编译 cmake_pch

@@ -37,6 +37,17 @@ namespace Hazel{
         ImGui::ShowDemoWindow(&show);
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
+
+
     }
 
 
@@ -58,11 +69,14 @@ namespace Hazel{
         ImGui::CreateContext();
 
 
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
+         ImGuiIO& io = ImGui::GetIO(); (void)io;
 
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
         io.BackendFlags  |= ImGuiBackendFlags_HasMouseCursors;  //支持 ImGui 控制鼠标样式
         io.BackendFlags  |= ImGuiBackendFlags_HasSetMousePos;  //支持 ImGui 设置鼠标位置
+
 
 
         ImGui::StyleColorsDark();
