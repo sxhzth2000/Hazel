@@ -26,29 +26,7 @@ namespace Hazel{
     ImGuiLayer::~ImGuiLayer()
     {
     }
-    void ImGuiLayer::OnUpdate()
-    {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
 
-        ImGui::NewFrame();
-
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        ImGuiIO& io = ImGui::GetIO();
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
-        }
-
-
-    }
 
 
     void ImGuiLayer::OnEvent(Event& event)
@@ -63,6 +41,33 @@ namespace Hazel{
         dispatcher.Dispatch<KeyReleasedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
         dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnWindowResizeEvent));
     }
+
+    void ImGuiLayer::Begin()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        static bool show = true;
+        ImGui::ShowDemoWindow(&show);
+
+    }
+
+    void ImGuiLayer::End()
+    {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
+    }
+
     void ImGuiLayer::OnAttach()
     {
         HZ_CORE_ERROR("imgui on attach");
@@ -124,8 +129,8 @@ namespace Hazel{
     bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& e)
     {
         ImGuiIO& io=ImGui::GetIO();
-        io.MouseWheel+=e.GetXOffset();
-        io.MouseWheelH+=e.GetYOffset();
+        io.MouseWheel+=e.GetYOffset();
+        io.MouseWheelH+=e.GetXOffset();
 
         return false;
     }

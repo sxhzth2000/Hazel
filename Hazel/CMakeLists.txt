@@ -32,6 +32,9 @@ add_library(Hazel SHARED
         Platform/Windows/WindowsWindow.cpp
         vendor/glad/src/glad.c
         Platform/Windows/WindowsInput.cpp
+        src/Hazel/Renderer/GraphicsContext.h
+        Platform/OpenGL/OpenGLContext.cpp
+        Platform/OpenGL/OpenGLContext.h
 )
 
 message(STATUS "Hazel sources: ${HAZEL_SOURCES}")
@@ -69,7 +72,7 @@ set_source_files_properties(vendor/glad/src/glad.c PROPERTIES LANGUAGE C)
 
 # Windows 专用设置
 if (WIN32)
-    target_compile_definitions(Hazel PUBLIC HZ_PLATFORM_WINDOWS HZ_BUILD_DLL)
+    target_compile_definitions(Hazel PUBLIC HZ_PLATFORM_WINDOWS HZ_BUILD_DLL IMGUI_DLL_EXPORTS)
 endif()
 
 # MSVC 编译器设置

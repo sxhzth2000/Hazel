@@ -23,8 +23,11 @@ namespace Hazel{
     public:
         ImGuiLayer();
         ~ImGuiLayer();
-        void OnUpdate() ;
+
         void OnEvent(Event& event);
+        void Begin();
+        void End();
+
         void OnAttach();
         void OnDetach();
     private:

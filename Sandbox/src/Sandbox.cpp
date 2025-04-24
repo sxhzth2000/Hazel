@@ -1,6 +1,8 @@
 
 #include "Hazel/Core/EntryPoint.h"
 #include <Hazel.h>
+#include <imgui.h>
+
 #include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 
 class ExampleLayer:public Hazel::Layer
@@ -9,6 +11,7 @@ public:
 	ExampleLayer()
 		:Layer("Example")
 	{
+
 	}
 
 	void OnUpdate() override
@@ -30,6 +33,15 @@ public:
 		}
 
 	}
+
+	void OnImguiRender() override
+	{
+
+		ImGui::Begin("Windor for sandbox");
+		ImGui::End();
+
+
+	}
 };
 
 
@@ -40,7 +52,7 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushLayer(new Hazel::ImGuiLayer());
+	//	PushLayer(new Hazel::ImGuiLayer());
 	}
 	~Sandbox()
 	{

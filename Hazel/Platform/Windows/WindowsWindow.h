@@ -7,17 +7,14 @@
 
 #include "hzpch.h"
 
-
-
-
-
-
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
-
+#include <Hazel/Renderer/GraphicsContext.h>
 #include "Window.h"
 
 namespace Hazel{
+
+
 
 class WindowsWindow : public Window
 {
@@ -42,6 +39,12 @@ private:
 
 private:
     GLFWwindow* m_Window;
+
+    GraphicsContext* m_Contex;
+
+
+
+
 
     struct WindowData
     {
