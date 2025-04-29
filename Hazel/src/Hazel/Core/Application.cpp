@@ -19,6 +19,26 @@ namespace Hazel {
 
 #define BIND_EVENT_FN(x) std::bind(& Application::x,this,std::placeholders::_1)
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch (type)
+		{
+		case Hazel::ShaderDataType::Float:		return GL_FLOAT;
+		case Hazel::ShaderDataType::Float2:		return GL_FLOAT;
+		case Hazel::ShaderDataType::Float3:		return GL_FLOAT;
+		case Hazel::ShaderDataType::Float4:		return GL_FLOAT;
+		case Hazel::ShaderDataType::Mat3:		return GL_FLOAT;
+		case Hazel::ShaderDataType::Mat4: 		return GL_FLOAT;
+		case Hazel::ShaderDataType::Int:		return GL_INT;
+		case Hazel::ShaderDataType::Int2:		return GL_INT;
+		case Hazel::ShaderDataType::Int3:		return GL_INT;
+		case Hazel::ShaderDataType::Int4:		return GL_INT;
+		case Hazel::ShaderDataType::Bool:		return GL_BOOL;
+		}
+		HZ_CORE_ASSERT(false,"UnKnown ShaderDataTypeToOpenGLBaseType!");
+		return 0;
+
+	}
 
 	Application* Application::s_Instance=nullptr;
 
@@ -47,10 +67,27 @@ namespace Hazel {
 
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices,sizeof(vertices)));
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(float),nullptr);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
+
+
+		BufferLayout layout={
+			{ShaderDataType::Float3,"a_Position"},
+			{ShaderDataType::Float3,"a_color"}
+		};
+
+		uint32_t index=0;
+		for (const auto& element: layout)
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index,
+				element.GetComponentCount(),
+					ShaderDataTypeToOpenGLBaseType(element.Type),
+					element.Normalized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void *)element.Offset);
+			index++;
+		}
+
+
 
 
 		unsigned int indices[3]={0,1,2};
