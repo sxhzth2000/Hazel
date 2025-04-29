@@ -35,6 +35,14 @@ add_library(Hazel SHARED
         src/Hazel/Renderer/GraphicsContext.h
         Platform/OpenGL/OpenGLContext.cpp
         Platform/OpenGL/OpenGLContext.h
+        src/Hazel/Renderer/Shader.cpp
+        src/Hazel/Renderer/Shader.h
+        src/Hazel/Buffer.cpp
+        src/Hazel/Buffer.h
+        Platform/OpenGL/OpenglBuffer.cpp
+        Platform/OpenGL/OpenglBuffer.h
+        src/Hazel/Renderer/Renderer.cpp
+        src/Hazel/Renderer/Renderer.h
 )
 
 message(STATUS "Hazel sources: ${HAZEL_SOURCES}")

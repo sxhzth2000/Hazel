@@ -5,6 +5,7 @@
 #ifndef HZPCH_H
 #define HZPCH_H
 
+#include "Hazel/Core/Log.h"
 #include <iostream>
 #include <memory>
 #include <utility>

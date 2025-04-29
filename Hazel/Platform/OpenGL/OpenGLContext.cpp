@@ -4,6 +4,7 @@
 #include "hzpch.h"
 #include "OpenGLContext.h"
 
+
 #include <Hazel/Core/Log.h>
 
 #include "glad/glad.h"
@@ -22,6 +23,10 @@ namespace Hazle{
         glfwMakeContextCurrent(m_WindowHandle);
         int status=gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         if (!status) {HZ_CORE_ERROR("fails to initialize Glad!");};
+
+        const char* renderer = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+         glGetString(GL_RENDERER);
+        HZ_CORE_INFO("OpenGL Renderer {0}",renderer);
     }
 
 

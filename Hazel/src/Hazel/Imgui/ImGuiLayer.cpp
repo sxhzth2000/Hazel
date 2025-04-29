@@ -70,7 +70,7 @@ namespace Hazel{
 
     void ImGuiLayer::OnAttach()
     {
-        HZ_CORE_ERROR("imgui on attach");
+        HZ_CORE_INFO("imgui on attach");
         ImGui::CreateContext();
 
 
