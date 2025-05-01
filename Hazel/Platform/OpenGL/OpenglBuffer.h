@@ -4,7 +4,7 @@
 
 #ifndef OPENGLBUFFER_H
 #define OPENGLBUFFER_H
-#include "Hazel/Buffer.h"
+#include "../../src/Hazel/Renderer/Buffer.h"
 namespace Hazel {
 
     class OpenglVertexBuffer :public VertexBuffer

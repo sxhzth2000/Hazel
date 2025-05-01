@@ -1,13 +1,13 @@
 //
 // Created by tanhao on 2025/4/29.
 //
-#include "hzpch.h"
+#include "../../hzpch.h"
 
 #include "Buffer.h"
 
-#include "Core/Log.h"
-#include "OpenGL/OpenglBuffer.h"
-#include "Renderer/Renderer.h"
+#include "../Core/Log.h"
+#include "../../../Platform/OpenGL/OpenglBuffer.h"
+#include "Renderer.h"
 
 namespace Hazel {
 
