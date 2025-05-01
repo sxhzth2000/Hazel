@@ -12,7 +12,7 @@
 #include "Hazel/Events/ApplicationEvent.h"
 
 #include "glad/glad.h"
-
+#include "Hazel/Renderer/RenderCommand.h"
 
 
 namespace Hazel {
@@ -143,18 +143,21 @@ namespace Hazel {
 	{
 		while(m_runing)
 		{
+			RenderCommand::SetClearColor({0.2,0.3,0.4,1});
+
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
+			{
+
+				m_Shader_Square->Bind();
+				Renderer::Submit(m_SquareVA);
+				m_Shader->Bind();
+				Renderer::Submit(m_VertexArray);
+			}
+			Renderer::EndScene();
 
 
-			glClearColor(0.2,0.3,0.4,1);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			m_Shader_Square->Bind();
-			m_SquareVA->Bind();
-			glDrawElements(GL_TRIANGLES,m_SquareVA->GetIndexBuffer()->GetCount(),GL_UNSIGNED_INT,nullptr);
-
-			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES,m_VertexArray->GetIndexBuffer()->GetCount(),GL_UNSIGNED_INT,nullptr);
 
 			for(Layer* layer:m_LayerStack)
 				layer->OnUpdate();
@@ -167,7 +170,6 @@ namespace Hazel {
 					layer->OnImguiRender();
 			}
 			m_ImGuiLayer->End();
-
 			m_Window->OnUpdate();
 
 

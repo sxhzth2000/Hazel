@@ -48,6 +48,12 @@ add_library(Hazel SHARED
         Platform/OpenGL/OpenGLVertexArray.cpp
         Platform/OpenGL/OpenGLVertexArray.cpp
         Platform/OpenGL/OpenGLVertexArray.h
+        src/Hazel/Renderer/RenderreAPI.h
+        src/Hazel/Renderer/RendererAPI.cpp
+        src/Hazel/Renderer/RenderCommand.h
+        src/Hazel/Renderer/RenderCommand.cpp
+        Platform/OpenGL/OpenGLRendererAPI.cpp
+        Platform/OpenGL/OpenGLRendererAPI.h
 )
 
 message(STATUS "Hazel sources: ${HAZEL_SOURCES}")
