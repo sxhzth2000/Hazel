@@ -11,7 +11,7 @@
 namespace Hazel
 {
 
-    class RendererAPI
+    class HAZEL_API RendererAPI
     {
 
 
@@ -21,18 +21,19 @@ namespace Hazel
             None = 0, OpenGL
         };
     public:
-        RendererAPI() = default;
+        RendererAPI(){};
         virtual void SetClearColor(const glm::vec4& color){};
         virtual void Clear(){};
 
         virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray){};
 
-        inline static API GetAPI() {return s_API;}
+        inline static API GetAPI() ;
 
     private:
 
         static API s_API;
     };
+
 
 }
 

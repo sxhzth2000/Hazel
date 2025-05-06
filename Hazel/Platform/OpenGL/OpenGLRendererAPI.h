@@ -4,7 +4,7 @@
 
 #ifndef OPENGLRENDERERAPI_H
 #define OPENGLRENDERERAPI_H
-#include "Hazel/Renderer/RenderreAPI.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 namespace Hazel{
 class OpenGLRendererAPI : public RendererAPI

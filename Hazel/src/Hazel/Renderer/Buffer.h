@@ -5,9 +5,9 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-namespace Hazel {
+namespace  Hazel {
 
-    enum class ShaderDataType
+    enum class  ShaderDataType
     {
         None=0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
     };
@@ -111,12 +111,7 @@ namespace Hazel {
     };
 
 
-
-
-
-
-
-    class  VertexBuffer {
+    class HAZEL_API VertexBuffer {
     public:
         virtual ~VertexBuffer(){};
 
@@ -129,7 +124,7 @@ namespace Hazel {
 
     };
 
-    class  IndexBuffer
+    class HAZEL_API IndexBuffer
     {
     public:
         virtual ~IndexBuffer(){};

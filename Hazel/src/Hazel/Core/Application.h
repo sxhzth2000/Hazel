@@ -8,6 +8,7 @@
 #include <Hazel/Imgui/ImGuiLayer.h>
 
 #include "../Renderer/Buffer.h"
+#include "Hazel/Renderer/OrthographicCamera.h"
 #include "OpenGL/OpenglBuffer.h"
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/VertexArray.h"
@@ -41,15 +42,7 @@ namespace Hazel {
 
 	private:
 		static Application* s_Instance;
-		std::shared_ptr<Shader>  m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<VertexBuffer> m_VertexBuffer;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
-		std::shared_ptr<Shader>  m_Shader_Square;
-		std::shared_ptr<VertexArray> m_SquareVA;
-		std::shared_ptr<VertexBuffer> m_SquareVB;
-		std::shared_ptr<IndexBuffer> m_SquareIB;
 	};
 
 
