@@ -110,32 +110,36 @@ using namespace Hazel;
 		m_Shader_Square.reset(new Shader(vertexSrc_Square,fragmentSrc_Square));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Hazel::TimeStep ts) override
 	{
+
+		HZ_TRACE("TimeStep: {0}s ({1}ms {2})",ts.GetSeconds(),ts.GetMilliseconds(), float(ts));
+
+
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
 		{
-			m_CameraPosition.x-= m_CameraMoveSpeed;
+			m_CameraPosition.x-= m_CameraMoveSpeed*ts;
 		}
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
 		{
-			m_CameraPosition.x+= m_CameraMoveSpeed;
+			m_CameraPosition.x+= m_CameraMoveSpeed*ts;
 		}
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
 		{
-			m_CameraPosition.y+= m_CameraMoveSpeed;
+			m_CameraPosition.y+= m_CameraMoveSpeed*ts;
 		}
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
 		{
-			m_CameraPosition.y-= m_CameraMoveSpeed;
+			m_CameraPosition.y-= m_CameraMoveSpeed*ts;
 		}
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
 		{
-			m_CameraRotation-= m_CameraRotationSpeed;
+			m_CameraRotation-= m_CameraRotationSpeed*ts;
 		}
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
 		{
-			m_CameraRotation+= m_CameraRotationSpeed;
+			m_CameraRotation+= m_CameraRotationSpeed*ts;
 		}
 
 
@@ -184,8 +188,8 @@ private:
 	float m_CameraRotation;
 
 
-	float m_CameraMoveSpeed=0.01f;
-	float m_CameraRotationSpeed=1.f;
+	float m_CameraMoveSpeed=5.0f;
+	float m_CameraRotationSpeed=180.0f;
 
 };
 

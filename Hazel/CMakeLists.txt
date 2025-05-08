@@ -56,6 +56,7 @@ add_library(Hazel SHARED
         Platform/OpenGL/OpenGLRendererAPI.h
         src/Hazel/Renderer/OrthographicCamera.cpp
         src/Hazel/Renderer/OrthographicCamera.h
+        src/Hazel/Core/TimeStep.h
 )
 
 message(STATUS "Hazel sources: ${HAZEL_SOURCES}")

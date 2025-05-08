@@ -2,16 +2,12 @@
 
 
 #include "Core.h"
+#include "Hazel.h"
 #include "Window.h"
 #include "Hazel/LayerStack.h"
 #include <Hazel/Events/ApplicationEvent.h>
 #include <Hazel/Imgui/ImGuiLayer.h>
 
-#include "../Renderer/Buffer.h"
-#include "Hazel/Renderer/OrthographicCamera.h"
-#include "OpenGL/OpenglBuffer.h"
-#include "Hazel/Renderer/Shader.h"
-#include "Hazel/Renderer/VertexArray.h"
 
 namespace Hazel {
 
@@ -38,10 +34,11 @@ namespace Hazel {
 		bool m_runing =true;
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
-
+		float m_LastTime = 0.0f;
 
 	private:
 		static Application* s_Instance;
+
 
 	};
 

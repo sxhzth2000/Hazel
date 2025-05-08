@@ -5,6 +5,7 @@
 #ifndef LAYER_H
 #define LAYER_H
 
+#include "Core/TimeStep.h"
 #include "Hazel/Core/Core.h"
 #include "Hazel/Events/Event.h"
 
@@ -19,8 +20,9 @@ namespace Hazel
         virtual void OnAttach(){}
         virtual void OnDetach(){}
         virtual void OnImguiRender(){}
-        virtual void OnUpdate(){}
+        virtual void OnUpdate(Hazel::TimeStep ts){}
         virtual void OnEvent(Event& event) {}
+
 
         inline const std::string& GetName() const ;
     private:

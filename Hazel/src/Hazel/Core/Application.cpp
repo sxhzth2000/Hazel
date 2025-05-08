@@ -13,6 +13,7 @@
 #include "Hazel/Events/ApplicationEvent.h"
 
 #include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "Hazel/Renderer/RenderCommand.h"
 
 #include "Hazel/Renderer/OrthographicCamera.h"
@@ -54,11 +55,13 @@ namespace Hazel {
 
 		while(m_runing)
 		{
+			float const time =static_cast<float>(glfwGetTime());
 
-
+			TimeStep timestep = time - m_LastTime;
+			m_LastTime=time;
 
 			for(Layer* layer:m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 
 
 			m_ImGuiLayer->Begin();
