@@ -2,6 +2,7 @@
 #include "Hazel/Core/EntryPoint.h"
 #include <Hazel.h>
 #include <imgui.h>
+#include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.inl>
 #include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 
@@ -9,7 +10,9 @@ class ExampleLayer:public Hazel::Layer
 {
 public:
 	ExampleLayer()
-		:Layer("Example"),m_Camera(-1.6,1.6,-0.9,0.9),m_CameraPosition(0.0)
+		:Layer("Example"),m_Camera(-1.6,1.6,-0.9,0.9),
+			m_CameraPosition(0.0),m_Transform(glm::vec3(0,0,0)),
+			m_Square_Transform(glm::vec3 (0,0,0))
 	{
 ////first shape//
 using namespace Hazel;
@@ -40,9 +43,11 @@ using namespace Hazel;
 			out vec3 v_color;
 			uniform mat4 u_ViewProjection;
 
+
+
 			void main()
 			{
-				gl_Position=u_ViewProjection * vec4(a_Position,1.0);
+				gl_Position=u_ViewProjection  * vec4(a_Position,1.0);
 				v_color = a_color;
 			}
 		)";
@@ -62,10 +67,10 @@ using namespace Hazel;
 //second shape//
 		m_SquareVA.reset(VertexArray::Create());
 		float vertices_Square[4*6]={
-			-0.75f,-0.75f, 0.0f, 1.0f, 0.0f, 0.0f,	//0
-			 0.75f,-0.75f, 0.0f, 0.0f, 1.0f, 0.0f,	//1
-			 0.75f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f,	//2
-			-0.75f, 0.75f, 0.0f, 0.0f, 0.0f, 0.0f	//3
+			-0.50f,-0.50f, 0.0f, 0.2f, 0.3f, 0.8f,	//0
+			 0.50f,-0.50f, 0.0f, 0.2f, 0.3f, 0.8f,	//1
+			 0.50f, 0.50f, 0.0f, 0.2f, 0.3f, 0.8f,	//2
+			-0.50f, 0.50f, 0.0f, 0.2f, 0.3f, 0.8f	//3
 		};
 
 		m_SquareVB.reset(VertexBuffer::Create(vertices_Square,sizeof(vertices_Square)));
@@ -88,9 +93,10 @@ using namespace Hazel;
 			layout(location = 1) in vec3 a_color;
 			out vec3 v_color;
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 			void main()
 			{
-				gl_Position= u_ViewProjection * vec4(a_Position,1.0);
+				gl_Position= u_ViewProjection * u_Transform * vec4(a_Position,1.0);
 				v_color = a_color;
 			}
 		)";
@@ -146,6 +152,35 @@ using namespace Hazel;
 
 
 
+
+		if (Hazel::Input::IsKeyPressed(HZ_KEY_UP))
+		{
+			m_Square_Transform.y+= m_CameraMoveSpeed*ts;
+		}
+		if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
+		{
+			m_Square_Transform.y-= m_CameraMoveSpeed*ts;
+		}
+
+		if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
+		{
+			m_Square_Transform.x-= m_CameraMoveSpeed*ts;
+		}
+		if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
+		{
+			m_Square_Transform.x+= m_CameraMoveSpeed*ts;
+		}
+
+
+
+
+
+
+
+
+
+
+
 		Hazel::RenderCommand::SetClearColor(color);
 		Hazel::RenderCommand::Clear();
 		m_Camera.SetPosition(m_CameraPosition);
@@ -153,10 +188,27 @@ using namespace Hazel;
 
 		Hazel::Renderer::BeginScene(m_Camera);
 		{
-			m_Shader_Square->Bind();
-			Hazel::Renderer::Submit(m_Shader_Square,m_SquareVA);
+
+
+
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f),glm::vec3 (0.1f));
+
+			for (int i =-10 ; i < 10 ; i++)
+			{
+				glm::vec3 pos(i * 0.12f,0,0);
+
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f),m_Square_Transform + pos) * scale;
+
+				m_Shader_Square->Bind();
+				Hazel::Renderer::Submit(m_Shader_Square,m_SquareVA,transform);
+			}
+
+
+
+
+
 			m_Shader->Bind();
-			Hazel::Renderer::Submit(m_Shader,m_VertexArray);
+			Hazel::Renderer::Submit(m_Shader,m_VertexArray,glm::mat4(1.0f));
 		}
 		Hazel::Renderer::EndScene();
 
@@ -185,6 +237,10 @@ private:
 
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
+
+	glm::vec3 m_Square_Transform;
+	glm::vec3 m_Transform;
+
 	float m_CameraRotation;
 
 
