@@ -235,15 +235,15 @@ using namespace Hazel;
 
 private:
 	glm::vec4 color={0.2,0.3,0.4,1};
-	std::shared_ptr<Hazel::Shader>  m_Shader;
-	std::shared_ptr<Hazel::VertexArray> m_VertexArray;
-	std::shared_ptr<Hazel::VertexBuffer> m_VertexBuffer;
-	std::shared_ptr<Hazel::IndexBuffer> m_IndexBuffer;
+	Hazel::Ref <Hazel::Shader>  m_Shader;
+	Hazel::Ref <Hazel::VertexArray> m_VertexArray;
+	Hazel::Ref <Hazel::VertexBuffer> m_VertexBuffer;
+	Hazel::Ref <Hazel::IndexBuffer> m_IndexBuffer;
 
-	std::shared_ptr<Hazel::Shader>  m_Shader_Square;
-	std::shared_ptr<Hazel::VertexArray> m_SquareVA;
-	std::shared_ptr<Hazel::VertexBuffer> m_SquareVB;
-	std::shared_ptr<Hazel::IndexBuffer> m_SquareIB;
+	Hazel::Ref <Hazel::Shader>  m_Shader_Square;
+	Hazel::Ref <Hazel::VertexArray> m_SquareVA;
+	Hazel::Ref <Hazel::VertexBuffer> m_SquareVB;
+	Hazel::Ref <Hazel::IndexBuffer> m_SquareIB;
 
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
@@ -259,7 +259,7 @@ private:
 
 	glm::vec3 m_SquareColor= glm::vec3(0.8f,0.2f,0.3f);
 
-	int m_SquareNumber[2]={1,1};
+	int m_SquareNumber[2]={4,4};
 
 };
 

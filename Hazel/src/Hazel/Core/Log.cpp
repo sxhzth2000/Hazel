@@ -1,11 +1,12 @@
+#include "Hazel/Core/Core.h"
 #include "Log.h"
 
 
 
 namespace  Hazel {
 
-	 std::shared_ptr<spdlog::logger> Log::s_CoreLogger=nullptr;
-	 std::shared_ptr<spdlog::logger> Log::s_ClientLogger=nullptr;
+	 Ref <spdlog::logger> Log::s_CoreLogger=nullptr;
+	 Ref <spdlog::logger> Log::s_ClientLogger=nullptr;
 
 	void Log::Init()
 	{
@@ -20,13 +21,13 @@ namespace  Hazel {
 
 	}
 
-	std::shared_ptr<spdlog::logger>& Log::GetCoreLogger()
+	Ref <spdlog::logger>& Log::GetCoreLogger()
 	{
 		if (!s_CoreLogger) Init();
 		return s_CoreLogger;
 	}
 
-	std::shared_ptr<spdlog::logger>& Log::GetClientLogger()
+	Ref <spdlog::logger>& Log::GetClientLogger()
 	{
 		if (!s_CoreLogger) Init();
 		return s_ClientLogger;
