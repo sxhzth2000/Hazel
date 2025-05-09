@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.inl>
 #include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 
+
 class ExampleLayer:public Hazel::Layer
 {
 public:
@@ -62,7 +63,7 @@ using namespace Hazel;
 			}
 		)";
 
-		m_Shader.reset(new Shader(vertexSrc,fragmentSrc));
+		m_Shader.reset(Hazel::Shader::Create(vertexSrc,fragmentSrc));
 
 //second shape//
 		m_SquareVA.reset(VertexArray::Create());
@@ -94,10 +95,11 @@ using namespace Hazel;
 			out vec3 v_color;
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
+
 			void main()
 			{
 				gl_Position= u_ViewProjection * u_Transform * vec4(a_Position,1.0);
-				v_color = a_color;
+
 			}
 		)";
 
@@ -106,20 +108,22 @@ using namespace Hazel;
 			layout(location = 0) out vec4 color;
 			in vec3 v_color;
 
-			uniform vec4 u_color;
+			uniform vec3 u_color;
 
 			void main()
 			{
-				color = vec4 (v_color,1.0);
+				color = vec4( u_color,1.0f);
 			}
 		)";
-		m_Shader_Square.reset(new Shader(vertexSrc_Square,fragmentSrc_Square));
+
+
+		m_Shader_Square.reset( Hazel::Shader::Create(vertexSrc_Square,fragmentSrc_Square));
 	}
 
 	void OnUpdate(Hazel::TimeStep ts) override
 	{
 
-		HZ_TRACE("TimeStep: {0}s ({1}ms {2})",ts.GetSeconds(),ts.GetMilliseconds(), float(ts));
+		//HZ_TRACE("TimeStep: {0}s ({1}ms {2})",ts.GetSeconds(),ts.GetMilliseconds(), float(ts));
 
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
@@ -193,17 +197,21 @@ using namespace Hazel;
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f),glm::vec3 (0.1f));
 
-			for (int i =-10 ; i < 10 ; i++)
+
+			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Shader_Square)->Bind();
+			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Shader_Square)->UploadUniformFloat3("u_color",m_SquareColor);
+
+
+			for (int i =-m_SquareNumber[0] ; i < m_SquareNumber[0] ; i++)
 			{
-				glm::vec3 pos(i * 0.12f,0,0);
-
-				glm::mat4 transform = glm::translate(glm::mat4(1.0f),m_Square_Transform + pos) * scale;
-
-				m_Shader_Square->Bind();
-				Hazel::Renderer::Submit(m_Shader_Square,m_SquareVA,transform);
+				for (int j = -m_SquareNumber[1] ; j<m_SquareNumber[1] ; j++)
+				{
+					glm::vec3 pos(i * 0.12f,j *0.12f,0);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f),m_Square_Transform + pos) * scale;
+					m_Shader_Square->Bind();
+					Hazel::Renderer::Submit(m_Shader_Square,m_SquareVA,transform);
+				}
 			}
-
-
 
 
 
@@ -217,8 +225,10 @@ using namespace Hazel;
 
 	void OnImguiRender() override
 	{
-		ImGui::Begin("111");
+		ImGui::Begin("Settings");
 		ImGui::ColorEdit4("Clear Color", glm::value_ptr(color));
+		ImGui::ColorEdit3("SquareColor",glm::value_ptr(m_SquareColor));
+		ImGui::SliderInt2("SquareNumber",m_SquareNumber,1,10);
 		ImGui::End();
 	}
 
@@ -246,6 +256,10 @@ private:
 
 	float m_CameraMoveSpeed=5.0f;
 	float m_CameraRotationSpeed=180.0f;
+
+	glm::vec3 m_SquareColor= glm::vec3(0.8f,0.2f,0.3f);
+
+	int m_SquareNumber[2]={1,1};
 
 };
 
