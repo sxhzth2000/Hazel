@@ -11,6 +11,11 @@ namespace Hazel
 {
     RendererAPI* RenderCommand::s_RendererAPI = new OpenGLRendererAPI;
 
+    void RenderCommand::Init()
+    {
+            s_RendererAPI->Init();
+    }
+
     void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
     {
             s_RendererAPI->DrawIndexed(vertexArray);

@@ -14,7 +14,7 @@ public:
 	ExampleLayer()
 		:Layer("Example"),m_Camera(-1.6,1.6,-0.9,0.9),
 			m_CameraPosition(0.0),m_Transform(glm::vec3(0,0,0)),
-			m_Square_Transform(glm::vec3 (0,0,0))
+			m_Square_Transform(glm::vec3 (0,0,0)),m_CameraRotation(0)
 	{
 ////first shape//
 using namespace Hazel;
@@ -47,12 +47,12 @@ using namespace Hazel;
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec2 a_TexCoord;
 			uniform mat4 u_ViewProjection;
-
+			uniform mat4 u_Transform;
 			out vec2 v_TexCoord;
 
 			void main()
 			{
-				gl_Position=u_ViewProjection  * vec4(a_Position,1.0);
+				gl_Position=u_ViewProjection * u_Transform * vec4(a_Position,1.0);
 				v_TexCoord = a_TexCoord;
 
 			}
@@ -74,6 +74,8 @@ using namespace Hazel;
 		m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertexSrc,TextureShaderFragmentSrc));
 
 		 m_Texture=(Hazel::Texture2D::Create("assets/textures/Checkerboard.png"));
+		 m_ChernologoTexture=(Hazel::Texture2D::Create("assets/textures/ChernoLogo.png"));
+
 		m_TextureShader->Bind();
 
 		std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformMat4("u_Texture",0);
@@ -217,14 +219,38 @@ using namespace Hazel;
 					Hazel::Renderer::Submit(m_Shader_Square,m_SquareVA,transform);
 				}
 			}
+///////////////////////////////////////
 
 
 			m_TextureShader->Bind();
 			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformFloat3("u_color",m_Color);
 
-			m_TextureShader->Bind();
+
+
+
+
+
+
+			glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_ChernologoTexture_Transform)
+								* glm::scale(glm::mat4(1.0f), m_ChernologoTexture_Scale);
+
 			m_Texture->Bind(0);
-			Hazel::Renderer::Submit(m_TextureShader,m_TextureShaderVertexArray,glm::mat4(1.0f));
+
+			Hazel::Renderer::Submit(m_TextureShader,m_TextureShaderVertexArray,transform);
+
+
+			 transform = glm::translate(glm::mat4(1.0f), m_Texture_Transform)
+					* glm::scale(glm::mat4(1.0f), m_Texture_Scale);
+
+
+
+			m_ChernologoTexture->Bind(0);
+
+			Hazel::Renderer::Submit(m_TextureShader,m_TextureShaderVertexArray,transform);
+
+
+
+
 
 		}
 		Hazel::Renderer::EndScene();
@@ -239,6 +265,12 @@ using namespace Hazel;
 		ImGui::ColorEdit3("SquareColor",glm::value_ptr(m_SquareColor));
 		ImGui::SliderInt2("SquareNumber",m_SquareNumber,1,10);
 		ImGui::ColorEdit3("Color",glm::value_ptr(m_Color));
+
+		ImGui::SliderFloat3("Texture 1 translate",glm::value_ptr(m_Texture_Transform),-1,1);
+		ImGui::SliderFloat3("Texture 1 scale",glm::value_ptr(m_Texture_Scale),0,2);
+
+		ImGui::SliderFloat3("Texture 2 translate",glm::value_ptr(m_ChernologoTexture_Transform),-1,1);
+		ImGui::SliderFloat3("Texture 2 scale",glm::value_ptr(m_ChernologoTexture_Scale),0,2);
 
 		ImGui::End();
 	}
@@ -257,6 +289,16 @@ private:
 	Hazel::Ref <Hazel::IndexBuffer> m_SquareIB;
 
 	Hazel::Ref<Hazel::Texture2D> m_Texture;
+	glm::vec3 m_Texture_Scale= glm::vec3(1.0f);
+	glm::vec3 m_Texture_Transform= glm::vec3(0.0f);
+
+	Hazel::Ref<Hazel::Texture2D> m_ChernologoTexture;
+	glm::vec3 m_ChernologoTexture_Scale= glm::vec3(1.0f);
+	glm::vec3 m_ChernologoTexture_Transform= glm::vec3(0.0f);
+
+
+
+
 
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
