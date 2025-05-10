@@ -5,13 +5,17 @@
 #ifndef OPENGLSHADER_H
 #define OPENGLSHADER_H
 
+#include "GLFW/src/internal.h"
 #include "Hazel/Renderer/Shader.h"
+
+
 
 namespace Hazel
 {
     class HAZEL_API OpenglShader:public Shader{
 
     public:
+        OpenglShader(const std::string& filepath);
         OpenglShader(const std::string& vertexSrc,const std::string fragmentSrc);
 
         ~OpenglShader();
@@ -34,8 +38,12 @@ namespace Hazel
         void UploadUniformMat4(const std::string& name , const glm::mat4& matrix);
 
 
+    private:
 
-
+        std::string ReadFile( const std::string& filepath );
+        std::unordered_map<GLenum,std::string> PreProcess(const std::string& source);
+        void Compile(const std::unordered_map<GLenum,std::string>& shaderSources);
+        static GLenum ShaderTypeFromString(const std::string& type);
 
     private:
         uint32_t m_RendererID;

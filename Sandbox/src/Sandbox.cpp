@@ -19,6 +19,9 @@ public:
 ////first shape//
 using namespace Hazel;
 
+
+
+
 		m_TextureShaderVertexArray.reset(VertexArray::Create());
 		float vertices[5*4]={
 			-0.5f,-0.5f,  0.0f, 0, 0,
@@ -39,8 +42,9 @@ using namespace Hazel;
 									2,0,3	};
 
 		m_TextureShaderIndexBuffer.reset(IndexBuffer::Create(indices,sizeof(indices)/sizeof(uint32_t)));
-
 		m_TextureShaderVertexArray->SetIndexBuffer(m_TextureShaderIndexBuffer);
+
+
 
 		std::string TextureShaderVertexSrc= R"(
 			#version 330 core
@@ -71,16 +75,9 @@ using namespace Hazel;
 			}
 		)";
 
-		m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertexSrc,TextureShaderFragmentSrc));
 
-		 m_Texture=(Hazel::Texture2D::Create("assets/textures/Checkerboard.png"));
-		 m_ChernologoTexture=(Hazel::Texture2D::Create("assets/textures/ChernoLogo.png"));
 
-		m_TextureShader->Bind();
-
-		std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformMat4("u_Texture",0);
-
-//second shape//
+		//second shape//
 		m_SquareVA.reset(VertexArray::Create());
 
 		float vertices_Square[4*5]={
@@ -103,42 +100,23 @@ using namespace Hazel;
 		m_SquareIB.reset(IndexBuffer::Create(indices_Square,sizeof(indices_Square)/sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(m_SquareIB);
 
-
-		std::string vertexSrc_Square= R"(
-			#version 330 core
-			layout(location = 0) in vec3 a_Position;
+/////////////////////////////////////////
 
 
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
+		m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertexSrc,TextureShaderFragmentSrc));
+		m_Shader_Square.reset( Hazel::Shader::Create("assets/shaders/Texture.glsl"));
 
-			void main()
-			{
-				gl_Position= u_ViewProjection * u_Transform * vec4(a_Position,1.0);
+		m_TextureShader->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformMat4("u_Texture",0);
 
-			}
-		)";
-
-		std::string fragmentSrc_Square= R"(
-			#version 330 core
-			layout(location = 0) out vec4 color;
-
-			uniform vec3 u_color;
-
-			void main()
-			{
-				color = vec4( u_color,1.0f);
-			}
-		)";
+		m_Texture=(Hazel::Texture2D::Create("assets/textures/Checkerboard.png"));
+		m_ChernologoTexture=(Hazel::Texture2D::Create("assets/textures/ChernoLogo.png"));
 
 
-		m_Shader_Square.reset( Hazel::Shader::Create(vertexSrc_Square,fragmentSrc_Square));
 	}
 
 	void OnUpdate(Hazel::TimeStep ts) override
 	{
-
-
 
 		//HZ_TRACE("TimeStep: {0}s ({1}ms {2})",ts.GetSeconds(),ts.GetMilliseconds(), float(ts));
 
@@ -224,9 +202,6 @@ using namespace Hazel;
 
 			m_TextureShader->Bind();
 			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformFloat3("u_color",m_Color);
-
-
-
 
 
 
