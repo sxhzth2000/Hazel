@@ -139,6 +139,11 @@ void Hazel::OpenglShader::Unbind() const
     glUseProgram(0);
 }
 
+void Hazel::OpenglShader::UploadUniformInt(const std::string& name, const unsigned value)
+{
+    GLint location = glGetUniformLocation(m_RendererID,name.c_str());
+    glUniform1ui(location,value);
+}
 
 
 void Hazel::OpenglShader::UploadUniformFloat1(const std::string& name, const float value)

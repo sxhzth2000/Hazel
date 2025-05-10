@@ -23,7 +23,7 @@
 {                                                                      \
 if (!(x))                                                          \
 {                                                                  \
-HZ_CORE_ERROR("Assertion Failed: ", __VA_ARGS__);           \
+HZ_CORE_ERROR("Assertion Failed: {}", __VA_ARGS__);           \
 __debugbreak();                                                \
 }                                                                  \
 }

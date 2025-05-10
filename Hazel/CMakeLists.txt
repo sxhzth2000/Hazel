@@ -59,6 +59,12 @@ add_library(Hazel SHARED
         src/Hazel/Core/TimeStep.h
         src/Hazel/Renderer/OpenglShader.cpp
         src/Hazel/Renderer/OpenglShader.h
+        src/Hazel/Renderer/Texture.cpp
+        src/Hazel/Renderer/Texture.h
+        Platform/OpenGL/OpenGLTexture.cpp
+        Platform/OpenGL/OpenGLTexture.h
+        vendor/STB_image/stb_image.h
+        vendor/STB_image/stb_image.cpp
 )
 
 message(STATUS "Hazel sources: ${HAZEL_SOURCES}")
@@ -82,6 +88,7 @@ target_include_directories(Hazel PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform
     ${CMAKE_SOURCE_DIR}/Hazel/vendor/GLM
+    ${CMAKE_SOURCE_DIR}/Hazel/vendor
 )
 
 set(CMAKE_PCH_EXTENSION .cpp)  # 👈 强制使用 .cpp 编译 cmake_pch

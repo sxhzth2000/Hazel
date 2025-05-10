@@ -20,7 +20,7 @@ namespace Hazel
        virtual void Unbind() const override;
 
 
-
+        void UploadUniformInt(const std::string& name, const unsigned value);
 
         void UploadUniformFloat1(const std::string& name, const float value);
 
