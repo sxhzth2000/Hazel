@@ -22,7 +22,7 @@ using namespace Hazel;
 
 
 
-		m_TextureShaderVertexArray.reset(VertexArray::Create());
+		m_Flat_VAO.reset(VertexArray::Create());
 		float vertices[5*4]={
 			-0.5f,-0.5f,  0.0f, 0, 0,
 			 0.5f,-0.5f,  0.0f, 1, 0,
@@ -30,19 +30,19 @@ using namespace Hazel;
 			-0.5f, 0.5f,  0.0f, 0, 1,
 		};
 
-		m_TextureShaderVertexBuffer.reset(VertexBuffer::Create(vertices,sizeof(vertices)));
+		m_Flat_VBO.reset(VertexBuffer::Create(vertices,sizeof(vertices)));
 			BufferLayout layout={
 				{ShaderDataType::Float3,"a_Position"},
 				{ShaderDataType::Float2,"a_TexCoord"}
 			};
-		m_TextureShaderVertexBuffer->SetLayout(layout);
-		m_TextureShaderVertexArray->AddVertexBuffer(m_TextureShaderVertexBuffer);
+		m_Flat_VBO->SetLayout(layout);
+		m_Flat_VAO->AddVertexBuffer(m_Flat_VBO);
 
 		unsigned int indices[2*3]={	0,1,2,
 									2,0,3	};
 
-		m_TextureShaderIndexBuffer.reset(IndexBuffer::Create(indices,sizeof(indices)/sizeof(uint32_t)));
-		m_TextureShaderVertexArray->SetIndexBuffer(m_TextureShaderIndexBuffer);
+		m_Flat_IBO.reset(IndexBuffer::Create(indices,sizeof(indices)/sizeof(uint32_t)));
+		m_Flat_VAO->SetIndexBuffer(m_Flat_IBO);
 
 
 
@@ -78,7 +78,7 @@ using namespace Hazel;
 
 
 		//second shape//
-		m_SquareVA.reset(VertexArray::Create());
+		m_Square_VAO.reset(VertexArray::Create());
 
 		float vertices_Square[4*5]={
 			-0.50f,-0.50f, 0.0f,	//0
@@ -87,27 +87,34 @@ using namespace Hazel;
 			-0.50f, 0.50f, 0.0f,	//3
 		};
 
-		m_SquareVB.reset(VertexBuffer::Create(vertices_Square,sizeof(vertices_Square)));
+		m_Square_VBO.reset(VertexBuffer::Create(vertices_Square,sizeof(vertices_Square)));
 		BufferLayout layout_square={
 			{ShaderDataType::Float3,"a_Position"},
 
 		};
-		m_SquareVB->SetLayout(layout_square);
-		m_SquareVA->AddVertexBuffer(m_SquareVB);
+		m_Square_VBO->SetLayout(layout_square);
+		m_Square_VAO->AddVertexBuffer(m_Square_VBO);
 
 		unsigned int indices_Square[2*3]={	0,1,2,
 											2,3,0	};
-		m_SquareIB.reset(IndexBuffer::Create(indices_Square,sizeof(indices_Square)/sizeof(uint32_t)));
-		m_SquareVA->SetIndexBuffer(m_SquareIB);
+		m_Square_IBO.reset(IndexBuffer::Create(indices_Square,sizeof(indices_Square)/sizeof(uint32_t)));
+		m_Square_VAO->SetIndexBuffer(m_Square_IBO);
+
+
 
 /////////////////////////////////////////
 
+		//this shader in shader
+		m_Flat=Hazel::Shader::Create("Flat",TextureShaderVertexSrc,TextureShaderFragmentSrc);
 
-		m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertexSrc,TextureShaderFragmentSrc));
-		m_Shader_Square.reset( Hazel::Shader::Create("assets/shaders/Texture.glsl"));
+		auto m_Square= m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
-		m_TextureShader->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformMat4("u_Texture",0);
+
+
+
+
+		m_Flat->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Flat)->UploadUniformMat4("u_Texture",0);
 
 		m_Texture=(Hazel::Texture2D::Create("assets/textures/Checkerboard.png"));
 		m_ChernologoTexture=(Hazel::Texture2D::Create("assets/textures/ChernoLogo.png"));
@@ -182,9 +189,10 @@ using namespace Hazel;
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f),glm::vec3 (0.1f));
 
+			auto m_Square = m_ShaderLibrary.Get("Texture");
 
-			m_Shader_Square->Bind();
-			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Shader_Square)->UploadUniformFloat3("u_color",m_SquareColor);
+			m_Square->Bind();
+			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Square)->UploadUniformFloat3("u_color",m_SquareColor);
 
 
 			for (int i =-m_SquareNumber[0] ; i < m_SquareNumber[0] ; i++)
@@ -193,17 +201,17 @@ using namespace Hazel;
 				{
 					glm::vec3 pos(i * 0.12f,j *0.12f,0);
 					glm::mat4 transform = glm::translate(glm::mat4(1.0f),m_Square_Transform + pos) * scale;
-					m_Shader_Square->Bind();
-					Hazel::Renderer::Submit(m_Shader_Square,m_SquareVA,transform);
+					m_Square->Bind()	;
+					Hazel::Renderer::Submit(m_Square,m_Square_VAO,transform);
 				}
 			}
+
+
 ///////////////////////////////////////
 
 
-			m_TextureShader->Bind();
-			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_TextureShader)->UploadUniformFloat3("u_color",m_Color);
-
-
+			m_Flat->Bind();
+			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Flat)->UploadUniformFloat3("u_color",m_Color);
 
 
 			glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_ChernologoTexture_Transform)
@@ -211,17 +219,16 @@ using namespace Hazel;
 
 			m_Texture->Bind(0);
 
-			Hazel::Renderer::Submit(m_TextureShader,m_TextureShaderVertexArray,transform);
+			Hazel::Renderer::Submit(m_Flat,m_Flat_VAO,transform);
 
 
 			 transform = glm::translate(glm::mat4(1.0f), m_Texture_Transform)
 					* glm::scale(glm::mat4(1.0f), m_Texture_Scale);
 
 
-
 			m_ChernologoTexture->Bind(0);
 
-			Hazel::Renderer::Submit(m_TextureShader,m_TextureShaderVertexArray,transform);
+			Hazel::Renderer::Submit(m_Flat,m_Flat_VAO,transform);
 
 
 
@@ -252,16 +259,27 @@ using namespace Hazel;
 
 
 private:
-	glm::vec4 color={0.2,0.3,0.4,1};
-	Hazel::Ref <Hazel::Shader>  m_TextureShader;
-	Hazel::Ref <Hazel::VertexArray> m_TextureShaderVertexArray;
-	Hazel::Ref <Hazel::VertexBuffer> m_TextureShaderVertexBuffer;
-	Hazel::Ref <Hazel::IndexBuffer> m_TextureShaderIndexBuffer;
 
-	Hazel::Ref <Hazel::Shader>  m_Shader_Square;
-	Hazel::Ref <Hazel::VertexArray> m_SquareVA;
-	Hazel::Ref <Hazel::VertexBuffer> m_SquareVB;
-	Hazel::Ref <Hazel::IndexBuffer> m_SquareIB;
+	Hazel::ShaderLibrary m_ShaderLibrary;
+
+	glm::vec4 color={0.2,0.3,0.4,1};
+
+
+	Hazel::Ref <Hazel::Shader>  m_Flat;
+	Hazel::Ref <Hazel::VertexArray> m_Flat_VAO;
+	Hazel::Ref <Hazel::VertexBuffer> m_Flat_VBO;
+	Hazel::Ref <Hazel::IndexBuffer> m_Flat_IBO;
+
+
+
+
+	// Hazel::Ref <Hazel::Shader>  m_Square;
+	Hazel::Ref <Hazel::VertexArray> m_Square_VAO;
+	Hazel::Ref <Hazel::VertexBuffer> m_Square_VBO;
+	Hazel::Ref <Hazel::IndexBuffer> m_Square_IBO;
+
+
+
 
 	Hazel::Ref<Hazel::Texture2D> m_Texture;
 	glm::vec3 m_Texture_Scale= glm::vec3(1.0f);

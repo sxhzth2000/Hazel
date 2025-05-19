@@ -18,6 +18,20 @@
         auto ShaderSources = PreProcess(source);
         Compile(ShaderSources);
 
+        // Texture.glsl
+        //Extract name form filepath
+
+        //查找最后一个“属于这个集合”的字符的位置。 一个字符串，包含字符 '/' 和 '\\' c++中 \ 为转义字符
+        //这里为找到 / 或 \  unix 和 windows
+        auto lastSlash = filepath.find_last_of("/\\");
+        lastSlash = lastSlash == std::string::npos ? 0 : lastSlash+1;
+
+        //如果lastSlash == std::string::npos。说明找不到路径分隔符。否则 就从最后一个斜杠之后的位置开始提取。
+        auto lastDot = filepath.rfind('.');
+        auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+        m_Name = filepath.substr(lastSlash, count);
+
+
     }
 
 
@@ -80,7 +94,9 @@
 
         GLuint program = glCreateProgram();
 
-        std::vector<GLenum> glShaderIDs(shaderSources.size());
+        std::array<GLenum,2> glShaderIDs;
+        int glShaderIDIndex = 0;
+
         for (auto& kv :shaderSources)
         {
             GLenum type = kv.first;
@@ -122,7 +138,7 @@
             }
 
             glAttachShader(program, shader);
-            glShaderIDs.push_back(shader);
+            glShaderIDs[glShaderIDIndex++]= shader;
 
         }
         m_RendererID=program;
@@ -179,7 +195,7 @@
         return 0;
     }
 
-    Hazel::OpenglShader::OpenglShader(const std::string& vertexSrc, const std::string fragmentSrc)
+    Hazel::OpenglShader::OpenglShader(const std::string name,const std::string& vertexSrc, const std::string fragmentSrc)
     {
 
         std::unordered_map<GLenum,std::string> sources;
