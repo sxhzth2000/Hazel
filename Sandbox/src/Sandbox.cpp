@@ -2,8 +2,13 @@
 #include "Hazel/Core/EntryPoint.h"
 #include <Hazel.h>
 #include <imgui.h>
+
+
+
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.inl>
+#include <Hazel/OrthographicCameraController.h>
+
 #include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 #include "Hazel/Renderer/Texture.h"
 
@@ -12,9 +17,7 @@ class ExampleLayer:public Hazel::Layer
 {
 public:
 	ExampleLayer()
-		:Layer("Example"),m_Camera(-1.6,1.6,-0.9,0.9),
-			m_CameraPosition(0.0),m_Transform(glm::vec3(0,0,0)),
-			m_Square_Transform(glm::vec3 (0,0,0)),m_CameraRotation(0)
+		:Layer("Example"),m_Camera_Controller(1280.0f / 720.0f)
 	{
 ////first shape//
 using namespace Hazel;
@@ -90,7 +93,6 @@ using namespace Hazel;
 		m_Square_VBO.reset(VertexBuffer::Create(vertices_Square,sizeof(vertices_Square)));
 		BufferLayout layout_square={
 			{ShaderDataType::Float3,"a_Position"},
-
 		};
 		m_Square_VBO->SetLayout(layout_square);
 		m_Square_VAO->AddVertexBuffer(m_Square_VBO);
@@ -124,66 +126,18 @@ using namespace Hazel;
 
 	void OnUpdate(Hazel::TimeStep ts) override
 	{
-
-		//HZ_TRACE("TimeStep: {0}s ({1}ms {2})",ts.GetSeconds(),ts.GetMilliseconds(), float(ts));
-
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-		{
-			m_CameraPosition.x-= m_CameraMoveSpeed*ts;
-		}
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-		{
-			m_CameraPosition.x+= m_CameraMoveSpeed*ts;
-		}
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
-		{
-			m_CameraPosition.y+= m_CameraMoveSpeed*ts;
-		}
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
-		{
-			m_CameraPosition.y-= m_CameraMoveSpeed*ts;
-		}
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
-		{
-			m_CameraRotation-= m_CameraRotationSpeed*ts;
-		}
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
-		{
-			m_CameraRotation+= m_CameraRotationSpeed*ts;
-		}
+		m_Camera_Controller.OnUpdate(ts);
 
 
-
-
-
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_UP))
-		{
-			m_Square_Transform.y+= m_CameraMoveSpeed*ts;
-		}
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
-		{
-			m_Square_Transform.y-= m_CameraMoveSpeed*ts;
-		}
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
-		{
-			m_Square_Transform.x-= m_CameraMoveSpeed*ts;
-		}
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
-		{
-			m_Square_Transform.x+= m_CameraMoveSpeed*ts;
-		}
 
 		Hazel::RenderCommand::SetClearColor(color);
 		Hazel::RenderCommand::Clear();
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
 
-		Hazel::Renderer::BeginScene(m_Camera);
+		Hazel::Renderer::BeginScene(m_Camera_Controller.GetCamera());
 		{
+			//
+
+
 
 
 
@@ -231,9 +185,6 @@ using namespace Hazel;
 			Hazel::Renderer::Submit(m_Flat,m_Flat_VAO,transform);
 
 
-
-
-
 		}
 		Hazel::Renderer::EndScene();
 
@@ -242,6 +193,7 @@ using namespace Hazel;
 
 	void OnImguiRender() override
 	{
+
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit4("Clear Color", glm::value_ptr(color));
 		ImGui::ColorEdit3("SquareColor",glm::value_ptr(m_SquareColor));
@@ -254,9 +206,14 @@ using namespace Hazel;
 		ImGui::SliderFloat3("Texture 2 translate",glm::value_ptr(m_ChernologoTexture_Transform),-1,1);
 		ImGui::SliderFloat3("Texture 2 scale",glm::value_ptr(m_ChernologoTexture_Scale),0,2);
 
+
+
 		ImGui::End();
 	}
-
+void OnEvent(Hazel::Event& e)
+{
+	m_Camera_Controller.OnEvent(e);
+}
 
 private:
 
@@ -291,19 +248,12 @@ private:
 
 
 
+	Hazel::OrthographicCameraController m_Camera_Controller;
 
 
-	Hazel::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-
-	glm::vec3 m_Square_Transform;
-	glm::vec3 m_Transform;
-
-	float m_CameraRotation;
+	glm::vec3 m_Square_Transform =glm::vec3(1.0f);
 
 
-	float m_CameraMoveSpeed=5.0f;
-	float m_CameraRotationSpeed=180.0f;
 
 	glm::vec3 m_SquareColor= glm::vec3(0.8f,0.2f,0.3f);
 	glm::vec3 m_Color= glm::vec3(0.6f,0.2f,0.3f);

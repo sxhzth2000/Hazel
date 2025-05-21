@@ -4,7 +4,8 @@
 #include "hzpch.h"
 
 #include "OrthographicCamera.h"
-
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/string_cast.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 namespace Hazel
 {
@@ -12,6 +13,13 @@ namespace Hazel
         :m_ProjectionMatrix(glm::ortho(left,right,botton,top,-1.0f ,1.0f)),m_ViewMatrix(1.0f)
     {
         m_ViewProjectionMatrix=m_ProjectionMatrix * m_ViewMatrix ;
+    }
+
+    void OrthographicCamera::SetProjection(float left, float right, float botton, float top)
+    {
+        m_ProjectionMatrix=glm::ortho(left,right,botton,top,-1.0f ,1.0f);
+        m_ViewProjectionMatrix=m_ProjectionMatrix * m_ViewMatrix ;
+
     }
 
     void OrthographicCamera::RecalculateViewMatrix()

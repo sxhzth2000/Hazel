@@ -4,6 +4,8 @@
 
 #include "Renderer.h"
 
+#include <glad/glad.h>
+
 #include "OpenglShader.h"
 #include "OrthographicCamera.h"
 
@@ -20,6 +22,7 @@ namespace Hazel
     void Renderer::BeginScene(OrthographicCamera& camera)
     {
         m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+       // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
     void Renderer::EndScene()
