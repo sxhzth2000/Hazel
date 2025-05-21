@@ -4,7 +4,7 @@
 
 #ifndef WINDOWSINPUT_H
 #define WINDOWSINPUT_H
-#include "Hazel/input.h"
+#include "Hazel/Core/input.h"
 
 namespace Hazel {
 

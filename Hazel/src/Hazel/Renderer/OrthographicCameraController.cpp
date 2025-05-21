@@ -1,11 +1,12 @@
 //
 // Created by tanhao on 2025/5/21.
 //
-#include "hzpch.h"
-#include "OrthographicCameraController.h"
+#include "../../hzpch.h"
+#include "Hazel/Renderer/OrthographicCameraController.h"
 
-#include "input.h"
-#include "KeyCodes.h"
+#include "Hazel/Core/input.h"
+#include "Hazel/Core/KeyCodes.h"
+#include "Hazel/Core/TimeStep.h"
 
 Hazel::OrthographicCameraController::OrthographicCameraController(float aspectRatio,bool rotation):
 m_AspectRatio(aspectRatio),m_Camera(-m_AspectRatio*m_ZoomLevel,m_AspectRatio* m_ZoomLevel , -m_ZoomLevel,m_ZoomLevel),m_Rotation(rotation)

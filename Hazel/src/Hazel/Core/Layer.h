@@ -5,7 +5,7 @@
 #ifndef LAYER_H
 #define LAYER_H
 
-#include "Core/TimeStep.h"
+#include "Hazel/Core/TimeStep.h"
 #include "Hazel/Core/Core.h"
 #include "Hazel/Events/Event.h"
 

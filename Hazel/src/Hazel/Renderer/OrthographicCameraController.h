@@ -6,11 +6,11 @@
 #define ORTHOGRAPHICCAMERACONTROLLER_H
 
 
-#include "Core/TimeStep.h"
-#include "Events/ApplicationEvent.h"
-#include "Events/Event.h"
-#include "Events/MouseEvent.h"
-#include "Renderer/OrthographicCamera.h"
+#include "Hazel/Core/TimeStep.h"
+#include "Hazel/Events/ApplicationEvent.h"
+#include "Hazel/Events/Event.h"
+#include "Hazel/Events/MouseEvent.h"
+#include "Hazel/Renderer/OrthographicCamera.h"
 
 
 namespace Hazel

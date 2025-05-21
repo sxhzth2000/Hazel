@@ -10,7 +10,7 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 #include <Hazel/Renderer/GraphicsContext.h>
-#include "Window.h"
+#include "Hazel/Core/Window.h"
 
 namespace Hazel{
 
@@ -40,7 +40,7 @@ private:
 private:
     GLFWwindow* m_Window;
 
-    GraphicsContext* m_Contex;
+    GraphicsContext* m_Context;
 
 
 
@@ -48,7 +48,7 @@ private:
 
     struct WindowData
     {
-        std::string Tiele;
+        std::string Title;
         unsigned int Width,Height;
         bool VSync;
 

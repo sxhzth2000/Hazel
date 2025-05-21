@@ -7,7 +7,7 @@
 
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.inl>
-#include <Hazel/OrthographicCameraController.h>
+#include <Hazel/Renderer/OrthographicCameraController.h>
 
 #include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 #include "Hazel/Renderer/Texture.h"
@@ -219,7 +219,7 @@ private:
 
 	Hazel::ShaderLibrary m_ShaderLibrary;
 
-	glm::vec4 color={0.2,0.3,0.4,1};
+	glm::vec4 color={0.0,0.0,0.0,1};
 
 
 	Hazel::Ref <Hazel::Shader>  m_Flat;

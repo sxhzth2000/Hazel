@@ -7,7 +7,7 @@
 
 #include "Renderer.h"
 #include "../Core/Log.h"
-#include "../../../Platform/OpenGL/OpenglBuffer.h"
+#include "OpenGL/OpenglBuffer.h"
 
 namespace Hazel {
 

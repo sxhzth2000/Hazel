@@ -1,4 +1,4 @@
-#include "Hazel/Input.h"
+#include "Input.h"
 
 namespace Hazel {
 

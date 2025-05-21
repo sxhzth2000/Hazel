@@ -3,14 +3,14 @@
 
 
 #include "Hazel/Core/Application.h"
-#include "Hazel/Layer.h"
+#include "Hazel/Core/Layer.h"
 #include "Hazel/Core/Log.h"
 
 #include "Hazel/Core/TimeStep.h"
 
-#include "Hazel/input.h"
-#include "Hazel/KeyCodes.h"
-#include "Hazel/OrthographicCameraController.h"
+#include "Hazel/Core/input.h"
+#include "Hazel/Core/KeyCodes.h"
+#include "Hazel/Renderer/OrthographicCameraController.h"
 
 #include "Hazel/Imgui/ImGuiLayer.h"
 

@@ -67,10 +67,10 @@ namespace Hazel
 
     };
 
-    class HAZEL_API KeyTypeEvent: public KeyEvent
+    class HAZEL_API KeyTypedEvent: public KeyEvent
     {
     public:
-        KeyTypeEvent(int keycode)
+        KeyTypedEvent(int keycode)
         :KeyEvent(keycode){}
 
 

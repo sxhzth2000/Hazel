@@ -14,7 +14,7 @@
 #include <Hazel/Events/MouseEvent.h>
 #include <Hazel/Events/KeyEvent.h>
 
-#include "Hazel/Layer.h"
+#include "Hazel/Core/Layer.h"
 
 
 namespace Hazel{
@@ -39,7 +39,7 @@ namespace Hazel{
 
         bool OnKeyPressedEvent(KeyPressedEvent& e);
         bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-        bool OnkeyTypeEvent(KeyTypeEvent& e);
+        bool OnkeyTypeEvent(KeyTypedEvent& e);
         bool OnWindowResizeEvent(WindowResizeEvent& e);
 
     };

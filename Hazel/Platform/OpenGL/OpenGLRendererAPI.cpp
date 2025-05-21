@@ -7,6 +7,7 @@
 #include "OpenGLRendererAPI.h"
 
 #include <GL/gl.h>
+#include <GL/gl.h>
 
 void Hazel::OpenGLRendererAPI::Init()
 {
@@ -18,6 +19,12 @@ void Hazel::OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
 {
     glClearColor(color.r,color.g,color.b,color.a);
 
+}
+
+void Hazel::OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+{
+    HZ_INFO("glViewport");
+  //  glViewport(x,y,width,height);
 }
 
 void Hazel::OpenGLRendererAPI::Clear()

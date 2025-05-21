@@ -86,7 +86,7 @@ target_include_directories(Hazel PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform
+        Platform
     ${CMAKE_SOURCE_DIR}/Hazel/vendor/GLM
     ${CMAKE_SOURCE_DIR}/Hazel/vendor
 )

@@ -4,7 +4,7 @@
 #include "Core.h"
 #include "Hazel.h"
 #include "Window.h"
-#include "Hazel/LayerStack.h"
+#include "Hazel/Core/LayerStack.h"
 #include <Hazel/Events/ApplicationEvent.h>
 #include <Hazel/Imgui/ImGuiLayer.h>
 
@@ -30,8 +30,12 @@ namespace Hazel {
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 		Scope <Window> m_Window;
 		bool m_runing =true;
+		bool m_Minimized = false;
+
+
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
 		float m_LastTime = 0.0f;

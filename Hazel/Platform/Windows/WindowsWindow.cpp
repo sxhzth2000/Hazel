@@ -37,34 +37,11 @@ namespace Hazel{
         Shutdown();
     }
 
-    void WindowsWindow::OnUpdate()
-    {
-        glfwPollEvents();
-        m_Contex->SwapBuffers();
-    }
 
-    void WindowsWindow::SetVSync(bool enabled)
-    {
-        if(enabled)
-            glfwSwapInterval(1);
-        else
-            glfwSwapInterval(0);
-
-        m_Data.VSync= enabled;
-    }
-
-    void WindowsWindow::IsVSync() const
-    {
-    }
-
-    void* WindowsWindow::GetNativeWindow() const
-    {
-        return m_Window;
-    }
 
     void WindowsWindow::Init(const WindowProps& props)
     {
-        m_Data.Tiele=props.Title;
+        m_Data.Title=props.Title;
         m_Data.Height=props.Height;
         m_Data.Width=props.Width;
 
@@ -81,28 +58,23 @@ namespace Hazel{
 
         }
 
-        m_Window=glfwCreateWindow((int)props.Width,(int) props.Height,m_Data.Tiele.c_str(),nullptr,nullptr);
-        m_Contex=new Hazle::OpenGLContext(m_Window);
-        m_Contex->Init();
+        m_Window=glfwCreateWindow((int)props.Width,(int) props.Height,m_Data.Title.c_str(),nullptr,nullptr);
+        m_Context=new Hazle::OpenGLContext(m_Window);
+        m_Context->Init();
 
         glfwSetWindowUserPointer(m_Window,&m_Data);
         SetVSync(true);
 
-
-
-
-
-
-        //Set GLFW callbacks
+        /*//Set GLFW callbacks
         glfwSetWindowSizeCallback(m_Window,[](GLFWwindow* window,int width,int height)
         {
              WindowData& data = * (WindowData* ) glfwGetWindowUserPointer(window);
             data.Width = width;
             data.Height = height;
 
-            WindowResizeEvent evnet(width,height);
-            data.EventCallback(evnet);
-        });
+            WindowResizeEvent event(width,height);
+            data.EventCallback(event);
+           });*/
 
         glfwSetWindowCloseCallback(m_Window,[](GLFWwindow* window)
         {
@@ -137,12 +109,16 @@ namespace Hazel{
                 }
             }
         });
+
+
         glfwSetCharCallback(m_Window,[](GLFWwindow* window, unsigned int keycode)
         {
             WindowData& data = * (WindowData* ) glfwGetWindowUserPointer(window);
-            KeyTypeEvent event(keycode);
+            KeyTypedEvent event(keycode);
             data.EventCallback(event);
         });
+
+
         glfwSetMouseButtonCallback(m_Window,[](GLFWwindow* window, int button, int action, int mods)
         {
             WindowData& data = * (WindowData* ) glfwGetWindowUserPointer(window);
@@ -184,5 +160,29 @@ namespace Hazel{
     void WindowsWindow::Shutdown()
     {
         glfwDestroyWindow(m_Window);
+    }
+    void WindowsWindow::OnUpdate()
+    {
+        glfwPollEvents();
+        m_Context->SwapBuffers();
+    }
+
+    void WindowsWindow::SetVSync(bool enabled)
+    {
+        if(enabled)
+            glfwSwapInterval(1);
+        else
+            glfwSwapInterval(0);
+
+        m_Data.VSync= enabled;
+    }
+
+    void WindowsWindow::IsVSync() const
+    {
+    }
+
+    void* WindowsWindow::GetNativeWindow() const
+    {
+        return m_Window;
     }
 }

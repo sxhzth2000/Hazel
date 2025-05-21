@@ -37,7 +37,7 @@ namespace Hazel{
         dispatcher.Dispatch<MouseMovedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
         dispatcher.Dispatch<MouseScrolledEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
         dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
-        dispatcher.Dispatch<KeyTypeEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnkeyTypeEvent));
+        dispatcher.Dispatch<KeyTypedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnkeyTypeEvent));
         dispatcher.Dispatch<KeyReleasedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
         dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnWindowResizeEvent));
     }
@@ -170,7 +170,7 @@ namespace Hazel{
         return false;
     }
 
-       bool ImGuiLayer::OnkeyTypeEvent(KeyTypeEvent& e)
+       bool ImGuiLayer::OnkeyTypeEvent(KeyTypedEvent& e)
        {
         ImGuiIO& io=ImGui::GetIO();
         int keycode = e.GetKeyCode();
