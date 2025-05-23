@@ -6,7 +6,7 @@
 #include "WindowsWindow.h"
 
 
-
+#include <GL/gl.h>
 #include <Hazel/Core/Log.h>
 #include <Hazel/Events/ApplicationEvent.h>
 #include "Hazel/Events/KeyEvent.h"
@@ -60,12 +60,20 @@ namespace Hazel{
 
         m_Window=glfwCreateWindow((int)props.Width,(int) props.Height,m_Data.Title.c_str(),nullptr,nullptr);
         m_Context=new Hazle::OpenGLContext(m_Window);
+
         m_Context->Init();
+        glViewport(0, 0, 200, 1);
 
         glfwSetWindowUserPointer(m_Window,&m_Data);
         SetVSync(true);
 
-        /*//Set GLFW callbacks
+
+
+
+        //Set GLFW callbacks
+
+        glfwSetFramebufferSizeCallback(m_Window, nullptr); // 取消设置回调
+
         glfwSetWindowSizeCallback(m_Window,[](GLFWwindow* window,int width,int height)
         {
              WindowData& data = * (WindowData* ) glfwGetWindowUserPointer(window);
@@ -74,13 +82,27 @@ namespace Hazel{
 
             WindowResizeEvent event(width,height);
             data.EventCallback(event);
-           });*/
+
+
+            GLint viewport[4];
+glGetIntegerv(GL_VIEWPORT, viewport);
+std::cout << "Viewport: x=" << viewport[0]
+          << ", y=" << viewport[1]
+          << ", width=" << viewport[2]
+          << ", height=" << viewport[3] << std::endl;
+
+
+
+           });
 
         glfwSetWindowCloseCallback(m_Window,[](GLFWwindow* window)
         {
             WindowData& data = * (WindowData* ) glfwGetWindowUserPointer(window);
             WindowCloseEvent event;
             data.EventCallback(event);
+
+
+
         });
 
         glfwSetKeyCallback(m_Window,[](GLFWwindow* window,int key,int scancode,int action,int mods)
@@ -155,6 +177,8 @@ namespace Hazel{
             MouseMovedEvent event((float)xpos,(float)ypos);
             data.EventCallback(event);
         });
+
+
     }
 
     void WindowsWindow::Shutdown()

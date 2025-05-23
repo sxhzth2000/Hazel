@@ -12,7 +12,7 @@
 
 
 #include "glad/glad.h"
-//#include "GLFW/glfw3.h"
+
 #include "GLFW/glfw3.h"
 #include "Hazel/Core/Application.h"
 
@@ -50,15 +50,16 @@ namespace Hazel{
 
         static bool show = true;
         ImGui::ShowDemoWindow(&show);
-
+        glViewport(0, 0, 640, 360);
     }
 
     void ImGuiLayer::End()
     {
+
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
         ImGuiIO& io = ImGui::GetIO();
+
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
             GLFWwindow* backup_current_context = glfwGetCurrentContext();
@@ -66,6 +67,7 @@ namespace Hazel{
             ImGui::RenderPlatformWindowsDefault();
             glfwMakeContextCurrent(backup_current_context);
         }
+
     }
 
     void ImGuiLayer::OnAttach()

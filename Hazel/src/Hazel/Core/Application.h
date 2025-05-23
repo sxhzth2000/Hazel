@@ -40,6 +40,9 @@ namespace Hazel {
 		ImGuiLayer* m_ImGuiLayer;
 		float m_LastTime = 0.0f;
 
+		int currentMode = 0;
+		// 在渲染前根据选择设置 glViewport
+
 	private:
 		static Application* s_Instance;
 

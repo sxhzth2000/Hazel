@@ -21,6 +21,7 @@
 #include "Hazel/Renderer/Buffer.h"
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/OpenglShader.h"
+#include "Hazel/Renderer/Renderer2D.h"
 
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/OrthographicCamera.h"

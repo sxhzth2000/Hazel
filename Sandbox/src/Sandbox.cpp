@@ -9,9 +9,12 @@
 #include <glm/gtc/type_ptr.inl>
 #include <Hazel/Renderer/OrthographicCameraController.h>
 
+#include "Sandbox2D.h"
 #include "../../Hazel/vendor/GLFW/include/GLFW/glfw3.h"
 #include "Hazel/Renderer/Texture.h"
 
+
+#include "Sandbox2D.h"
 
 class ExampleLayer:public Hazel::Layer
 {
@@ -25,7 +28,7 @@ using namespace Hazel;
 
 
 
-		m_Flat_VAO.reset(VertexArray::Create());
+		m_Flat_VAO=(VertexArray::Create());
 		float vertices[5*4]={
 			-0.5f,-0.5f,  0.0f, 0, 0,
 			 0.5f,-0.5f,  0.0f, 1, 0,
@@ -81,7 +84,7 @@ using namespace Hazel;
 
 
 		//second shape//
-		m_Square_VAO.reset(VertexArray::Create());
+		m_Square_VAO=(VertexArray::Create());
 
 		float vertices_Square[4*5]={
 			-0.50f,-0.50f, 0.0f,	//0
@@ -103,16 +106,12 @@ using namespace Hazel;
 		m_Square_VAO->SetIndexBuffer(m_Square_IBO);
 
 
-
 /////////////////////////////////////////
 
 		//this shader in shader
 		m_Flat=Hazel::Shader::Create("Flat",TextureShaderVertexSrc,TextureShaderFragmentSrc);
 
 		auto m_Square= m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
-
-
-
 
 
 		m_Flat->Bind();
@@ -128,19 +127,12 @@ using namespace Hazel;
 	{
 		m_Camera_Controller.OnUpdate(ts);
 
-
-
 		Hazel::RenderCommand::SetClearColor(color);
 		Hazel::RenderCommand::Clear();
 
 		Hazel::Renderer::BeginScene(m_Camera_Controller.GetCamera());
 		{
 			//
-
-
-
-
-
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f),glm::vec3 (0.1f));
 
 			auto m_Square = m_ShaderLibrary.Get("Texture");
@@ -162,8 +154,6 @@ using namespace Hazel;
 
 
 ///////////////////////////////////////
-
-
 			m_Flat->Bind();
 			std::dynamic_pointer_cast<Hazel::OpenglShader>(m_Flat)->UploadUniformFloat3("u_color",m_Color);
 
@@ -183,7 +173,6 @@ using namespace Hazel;
 			m_ChernologoTexture->Bind(0);
 
 			Hazel::Renderer::Submit(m_Flat,m_Flat_VAO,transform);
-
 
 		}
 		Hazel::Renderer::EndScene();
@@ -205,10 +194,16 @@ using namespace Hazel;
 
 		ImGui::SliderFloat3("Texture 2 translate",glm::value_ptr(m_ChernologoTexture_Transform),-1,1);
 		ImGui::SliderFloat3("Texture 2 scale",glm::value_ptr(m_ChernologoTexture_Scale),0,2);
-
-
-
 		ImGui::End();
+
+
+
+
+
+
+
+
+
 	}
 void OnEvent(Hazel::Event& e)
 {
@@ -254,7 +249,6 @@ private:
 	glm::vec3 m_Square_Transform =glm::vec3(1.0f);
 
 
-
 	glm::vec3 m_SquareColor= glm::vec3(0.8f,0.2f,0.3f);
 	glm::vec3 m_Color= glm::vec3(0.6f,0.2f,0.3f);
 
@@ -269,11 +263,11 @@ class Sandbox :public Hazel::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
-	//	PushLayer(new Hazel::ImGuiLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 	~Sandbox()
-	{
+	{\
 
 	}
 private:

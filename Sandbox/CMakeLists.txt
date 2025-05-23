@@ -11,28 +11,25 @@ file(GLOB_RECURSE HAZEL_SOURCES
     #    ../Hazel/src/Hazel/Core/Log.cpp
 )
 
-
 file(GLOB_RECURSE SANDBOX_SOURCES
         "src/*.cpp"
 )
 
 
 
-
 # 仅添加 Sandbox 的源文件
 add_executable(Sandbox
-        src/Sandbox.cpp  # 显式列出文件更安全
-
-
+        src/Sandbox.cpp
+        src/Sandbox2D.cpp
+          # 显式列出文件更安全
 )
 
-
     target_link_libraries(Sandbox PRIVATE Hazel)
-
 # 包含 Hazel 的头文件目录
 target_include_directories(Sandbox PUBLIC
         ${CMAKE_SOURCE_DIR}/Hazel/src
         ${CMAKE_SOURCE_DIR}/Hazel/vendor/spdlog/include
+        ${CMAKE_SOURCE_DIR}/Sandbox/src
 )
 
 # Windows 专用设置
@@ -52,3 +49,4 @@ endif()
 set_target_properties(Sandbox PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 )
+
